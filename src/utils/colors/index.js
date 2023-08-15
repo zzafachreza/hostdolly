@@ -1,0 +1,20 @@
+export const colors = {
+  primary: '#F8A9B0',
+  secondary: '#F1E1DD',
+  tertiary: '#F14975',
+  foourty: '#F2EDE1',
+  background: '#F6F6F6',
+  success: '#078422',
+  warning: '#F37120',
+  danger: '#FF0000',
+  black: 'black',
+  white: 'white',
+  border: '#E5E5E5',
+  border_primary: '#0062FF80',
+  placeholder: '#8D8D8D',
+  background_input: '#FFFFFF',
+  satu: '#D27B87',
+  dua: '#AD697C',
+  tiga: '#CE5888',
+  textUtama: '#743748'
+};
