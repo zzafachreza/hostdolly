@@ -12,6 +12,7 @@ import 'intl/locale-data/jsonp/en';
 import moment from 'moment';
 import 'moment/locale/id';
 import { Calendar, CalendarList, Agenda, LocaleConfig } from 'react-native-calendars';
+import { MyButton, MyCalendar, MyGap, MyInput } from '../../components';
 export default function MenuB({ navigation, route }) {
     const [selected, setSelected] = useState('');
     LocaleConfig.locales['id'] = {
@@ -39,6 +40,100 @@ export default function MenuB({ navigation, route }) {
 
 
     const item = route.params;
+
+    const [kirim, setKirim] = useState({
+        id: '',
+        keterangan: '',
+
+    });
+    const [data, setData] = useState([]);
+    const [marked, setMarked] = useState({});
+
+    const sendServer = () => {
+        console.log(kirim);
+
+        axios.post(apiURL + 'jadwal_add', kirim).then(res => {
+            console.log(res.data);
+
+            __getTransaction();
+
+        })
+    }
+
+    useEffect(() => {
+        __getTransaction();
+    }, [])
+
+    const __getTransaction = () => {
+        getData('user').then(u => {
+            setKirim({
+                id: u.id,
+                keterangan: '',
+                tanggal: moment().format('YYYY-MM-DD')
+            });
+
+            axios.post(apiURL + 'jadwal', {
+                id: u.id
+            }).then(res => {
+                console.log(res.data);
+                setData(res.data);
+
+                let arr = {}
+                Object.keys(res.data).map(i => {
+                    arr[res.data[i].tanggal] = { selected: true, disableTouchEvent: true, selectedDotColor: 'orange' }
+                });
+
+                setMarked(arr);
+            })
+
+        })
+    }
+
+    const __renderItem = ({ item }) => {
+        return (
+            <TouchableWithoutFeedback onPress={() => {
+                Alert.alert(MYAPP, 'Delete this schedule ?', [
+                    {
+                        text: 'CANCEL'
+                    }, {
+                        text: 'DELETE',
+                        onPress: () => {
+                            axios.post(apiURL + 'jadwal_delete', {
+                                id: item.id
+                            }).then(res => {
+                                __getTransaction()
+                            })
+                        }
+                    }
+                ])
+            }}>
+                <View style={{
+                    flex: 1,
+                    backgroundColor: colors.primary,
+                    padding: 20,
+                    margin: 5,
+                    marginBottom: 10,
+                    borderRadius: 20,
+                }}>
+                    <Text style={{
+                        fontFamily: fonts.secondary[600],
+                        color: colors.black,
+                        fontSize: 15,
+                    }}>{item.keterangan}</Text>
+                    <Text style={{
+                        fontFamily: fonts.secondary[400],
+                        color: colors.black,
+                        fontSize: 11,
+                        marginBottom: 5,
+
+                    }}>{moment(item.tanggal).format('DD/MM/YY')}</Text>
+
+
+                </View>
+            </TouchableWithoutFeedback>
+        )
+
+    }
     return (
         <SafeAreaView style={{
             flex: 1,
@@ -82,22 +177,55 @@ export default function MenuB({ navigation, route }) {
             }}>
 
                 <Calendar
+                    markedDates={marked}
                     theme={{
                         backgroundColor: colors.secondary,
                         calendarBackground: colors.secondary,
                         textSectionTitleColor: colors.black,
-                        selectedDayBackgroundColor: colors.black,
+                        selectedDayBackgroundColor: colors.primary,
                         selectedDayTextColor: colors.black,
                         todayTextColor: colors.black,
                         dayTextColor: colors.primary,
                     }}
                     onDayPress={day => {
-                        setSelected(day.dateString);
+                        let arr = {};
+                        let tedss =
+                            console.log(arr);
                     }}
-                    markedDates={{
-                        [selected]: { selected: true, disableTouchEvent: true, selectedDotColor: 'orange' }
-                    }}
+
                 />
+            </View>
+
+            <View style={{
+                flex: 0.5,
+                backgroundColor: colors.secondary,
+                paddingHorizontal: 10,
+            }}>
+
+                <FlatList data={data} renderItem={__renderItem} numColumns={4} />
+
+            </View>
+
+            <View style={{
+                padding: 10,
+                backgroundColor: colors.secondary
+            }}>
+                <MyCalendar value={kirim.tanggal} onDateChange={x => {
+                    setKirim({
+                        ...kirim,
+                        tanggal: x
+                    })
+                }} />
+                <MyGap jarak={10} />
+                <MyInput nolabel value={kirim.keterangan} onChangeText={x => {
+                    setKirim({
+                        ...kirim,
+                        keterangan: x
+                    })
+                }} placeholder="TYPE YOUR NOTES" multiline />
+                <MyGap jarak={10} />
+                <MyButton title="Add Schedule" Icons="create-outline" onPress={sendServer} />
+
             </View>
         </SafeAreaView>
     )

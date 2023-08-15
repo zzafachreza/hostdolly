@@ -22,7 +22,7 @@ export default function MyCalendar({
 }) {
   return (
     <>
-      <View
+      {/* <View
         style={{
           flexDirection: 'row',
           alignItems: 'center',
@@ -39,10 +39,10 @@ export default function MyCalendar({
           }}>
           {label}
         </Text>
-      </View>
+      </View> */}
 
       <View style={{
-        backgroundColor: colors.zavalabs,
+        backgroundColor: colors.white,
         borderRadius: 10,
         marginTop: 5,
         fontFamily: fonts.secondary[600],

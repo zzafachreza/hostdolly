@@ -112,7 +112,7 @@ export default function Home({ navigation, route }) {
       PlaySuara();
       PushNotification.localNotification({
         /* Android Only Properties */
-        channelId: 'teloletID', // (required) channelId, if the channel doesn't exist, notification will not trigger.
+        channelId: 'HostdollyID', // (required) channelId, if the channel doesn't exist, notification will not trigger.
         title: obj.title, // (optional)
         message: obj.body, // (required)
       });
@@ -183,10 +183,19 @@ export default function Home({ navigation, route }) {
         </Text>
 
 
-        <Image source={require('../../assets/kanan.png')} style={{
-          width: 140,
-          height: 50,
-        }} />
+        <TouchableOpacity onPress={() => {
+          PushNotification.localNotification({
+            /* Android Only Properties */
+            channelId: 'HostdollyID', // (required) channelId, if the channel doesn't exist, notification will not trigger.
+            title: 'Test Alarm', // (optional)
+            message: 'Waktunya Sarapan Pagi', // (required)
+          });
+        }}>
+          <Image source={require('../../assets/kanan.png')} style={{
+            width: 140,
+            height: 50,
+          }} />
+        </TouchableOpacity>
 
       </View>
       <View style={{

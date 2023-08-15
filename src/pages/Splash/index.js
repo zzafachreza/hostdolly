@@ -34,14 +34,11 @@ export default function Splash({ navigation }) {
 
   useEffect(() => {
     setTimeout(() => {
-      getData('user').then(res => {
-        if (!res) {
-          navigation.replace('Login')
-        } else {
-          // navigation.replace('GetStarted')
-          navigation.replace('Home')
-        }
-      })
+
+      // navigation.replace('GetStarted')
+      navigation.replace('Notification')
+
+
     }, 1500)
   }, []);
 

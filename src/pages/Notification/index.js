@@ -1,111 +1,78 @@
-import { Alert, StyleSheet, Text, View, Image, FlatList, ActivityIndicator, Dimensions, ImageBackground, TouchableWithoutFeedback, TouchableNativeFeedback, Linking, BackHandler } from 'react-native'
-import React, { useState, useEffect, useRef } from 'react'
-import { SafeAreaView } from 'react-native-safe-area-context'
-import { apiURL, getData, MYAPP, storeData } from '../../utils/localStorage';
+import React, { useEffect } from 'react';
+import {
+    StyleSheet,
+    Text,
+    View,
+    ActivityIndicator,
+    Image,
+    Animated,
+    Easing,
+    ImageBackground,
+    SafeAreaView,
+} from 'react-native';
+import { MyButton } from '../../components';
 import { DimensionThisPhone, colors, fonts, windowHeight, windowWidth } from '../../utils';
-import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
-import { Icon } from 'react-native-elements/dist/icons/Icon';
-import { useIsFocused } from '@react-navigation/native';
-import axios from 'axios';
-import 'intl';
-import 'intl/locale-data/jsonp/en';
-import moment from 'moment';
-import 'moment/locale/id';
-import MyCarouser from '../../components/MyCarouser';
-import messaging from '@react-native-firebase/messaging';
-import PushNotification from 'react-native-push-notification';
+import { MYAPP, getData } from '../../utils/localStorage';
 
-export default function Notification() {
+export default function Notification({ navigation }) {
+
+    const ImageAnimation = new Animated.Value(200);
+    const TextAnimation = new Animated.Value(-80);
 
 
-    const MenuNotification = ({ title, subtile }) => {
-        return (
-            <View style={{
-                flexDirection: 'row',
-                marginBottom: 10,
-                position: 'relative',
-                borderWidth: 1,
-                padding: 10,
-                backgroundColor: colors.white,
-                borderRadius: 10,
-                borderColor: colors.primary,
-                flexDirection: 'row'
-            }}>
-                <View style={{
-                    width: 20,
-                    height: 20,
-                    borderRadius: 10,
-                    backgroundColor: colors.primary,
-                    position: 'absolute',
-                    top: -5,
-                    left: -5,
+    Animated.timing(ImageAnimation, {
+        toValue: DimensionThisPhone,
+        duration: 1500,
+        easing: Easing.linear
+    }).start();
 
+    // Animated.timing(TextAnimation, {
+    //   toValue: 0,
+    //   duration: 500,
+    //   easing: Easing.linear
+    // }).start();
 
-                }} />
-                <View style={{
-                    flex: 1,
-                }}>
-                    <Text style={{
-                        color: colors.black,
-                        fontSize: DimensionThisPhone / 14,
-                        fontFamily: fonts.secondary[600]
-                    }}>New Workeder</Text>
-                    <Text style={{
-                        color: colors.black,
-                        fontSize: DimensionThisPhone / 23,
-                        fontFamily: fonts.secondary[400]
-                    }}>Cleaning HE check</Text>
-                </View>
-                <View style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-
-                }}>
-                    <Icon type='ionicon' name='ellipsis-horizontal' color={colors.primary} />
-                </View>
-            </View>
-        )
-    }
+    useEffect(() => {
+        setTimeout(() => {
+            getData('user').then(res => {
+                if (!res) {
+                    navigation.replace('Login')
+                } else {
+                    // navigation.replace('GetStarted')
+                    navigation.replace('Home')
+                }
+            })
+        }, 1500)
+    }, []);
 
 
     return (
-        <SafeAreaView style={{
-            flex: 1,
-            backgroundColor: colors.border
-        }}>
-            <ImageBackground source={require('../../assets/card.png')} style={{
-                margin: 20,
-                backgroundColor: colors.primary,
-                height: 50,
-                borderRadius: 10,
-                flexDirection: 'row',
-                alignItems: 'center',
-                padding: 10,
-            }}>
-                <Icon type='ionicon' name='arrow-back-circle' size={DimensionThisPhone / 10} color={colors.white} />
-                <Text style={{
-                    flex: 1,
-                    textAlign: 'center',
-                    color: colors.white,
-                    fontSize: DimensionThisPhone / 14,
-                    fontFamily: fonts.secondary[600]
-                }}>Your Notification</Text>
-            </ImageBackground>
-
-            <View style={{
-                flex: 1,
-                padding: 20
-            }}>
-                <MenuNotification />
-                <MenuNotification />
-                <MenuNotification />
-                <MenuNotification />
-                <MenuNotification />
-                <MenuNotification />
-                <MenuNotification />
+        <ImageBackground style={styles.container}>
+            <Animated.Image source={require('../../assets/logo2.png')} style={
+                {
+                    width: ImageAnimation,
+                    height: ImageAnimation,
+                    resizeMode: 'contain'
+                }
+            } />
+            <View style={styles.loading}>
+                <ActivityIndicator color={colors.primary} size="large" />
             </View>
-        </SafeAreaView>
-    )
+
+        </ImageBackground>
+    );
 }
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: colors.secondary,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+
+    loading: {
+        marginTop: 30,
+        marginBottom: 10,
+    }
+});

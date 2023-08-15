@@ -134,8 +134,15 @@ export default function MenuC({ navigation, route }) {
                                 }}>
                                     <Text style={{
                                         fontFamily: fonts.secondary[600],
+                                        color: colors.black,
                                         fontSize: 15,
                                     }}>{i.pesan}</Text>
+                                    <Text style={{
+                                        fontFamily: fonts.secondary[400],
+                                        color: colors.black,
+                                        textAlign: 'right',
+                                        fontSize: 10,
+                                    }}>{moment(i.tanggal).format('dddd , DD MMMM YYYY')} Pukul {i.jam}</Text>
                                 </View>
                             </TouchableWithoutFeedback>
                         )

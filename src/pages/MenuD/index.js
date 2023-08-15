@@ -93,7 +93,8 @@ export default function MenuD({ navigation, route }) {
                                     console.log(i);
                                     setPilih(i);
                                     // play the file tone.mp3
-                                    SoundPlayer.playUrl(i.suara)
+                                    SoundPlayer.playSoundFile('telolet', 'mp3')
+                                    // SoundPlayer.playUrl(i.suara)
 
 
                                 }}>
