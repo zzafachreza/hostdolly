@@ -13,6 +13,7 @@ import moment from 'moment';
 import 'moment/locale/id';
 import { Calendar, CalendarList, Agenda, LocaleConfig } from 'react-native-calendars';
 import { MyButton, MyCalendar, MyGap, MyInput } from '../../components';
+import PushNotification, { Importance } from 'react-native-push-notification';
 export default function MenuB({ navigation, route }) {
     const [selected, setSelected] = useState('');
     LocaleConfig.locales['id'] = {
@@ -52,15 +53,36 @@ export default function MenuB({ navigation, route }) {
     const sendServer = () => {
         console.log(kirim);
 
-        axios.post(apiURL + 'jadwal_add', kirim).then(res => {
-            console.log(res.data);
+        PushNotification.localNotificationSchedule({
+            //... You can use all the options from localNotifications
+            channelId: 'HostdollyIDX',
+            id: moment().unix() + '07:00',
+            title: 'Host Dolly', // (optional)
+            message: "Minum Obat Pagi", // (required)
+            // date: moment().utc().toISOString(), // in 60 secs
+            //moment(kirim.tanggal + ' ' + '10:27').toISOString().valueOf()
+            date: new Date(Date.now() + 10 * 1000), // in 60 secs
+            allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
+            playSound: true, // (optional) default: true
+            soundName: "alarm", // (optional) See `soundName` parameter of `localNotification` function
+            importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
+            vibrate: true,
+            /* Android Only Properties */
+            repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
+        });
 
-            __getTransaction();
+        alert('oke')
 
-        })
+        // axios.post(apiURL + 'jadwal_add', kirim).then(res => {
+        //     console.log(res.data);
+
+        //     __getTransaction();
+
+        // })
     }
 
     useEffect(() => {
+        console.log(moment().format('HH:mm:ss'))
         __getTransaction();
     }, [])
 
@@ -75,7 +97,7 @@ export default function MenuB({ navigation, route }) {
             axios.post(apiURL + 'jadwal', {
                 id: u.id
             }).then(res => {
-                console.log(res.data);
+
                 setData(res.data);
 
                 let arr = {}
