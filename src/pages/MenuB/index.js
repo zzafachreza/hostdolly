@@ -53,15 +53,15 @@ export default function MenuB({ navigation, route }) {
     const sendServer = () => {
         console.log(kirim);
 
+
         PushNotification.localNotificationSchedule({
             //... You can use all the options from localNotifications
             channelId: 'HostdollyIDX',
-            id: moment().unix() + '07:00',
             title: 'Host Dolly', // (optional)
-            message: "Minum Obat Pagi", // (required)
+            message: "Alarm Sudah aktif sesuai jadwal", // (required)
             // date: moment().utc().toISOString(), // in 60 secs
-            //moment(kirim.tanggal + ' ' + '10:27').toISOString().valueOf()
-            date: new Date(Date.now() + 10 * 1000), // in 60 secs
+            // ew Date(moment(kirim.tanggal + ' ' + '00:37').toISOString().valueOf())
+            date: new Date(Date.now() + 2 * 1000), // in 60 secs
             allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
             playSound: true, // (optional) default: true
             soundName: "alarm", // (optional) See `soundName` parameter of `localNotification` function
@@ -71,18 +71,121 @@ export default function MenuB({ navigation, route }) {
             repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
         });
 
-        alert('oke')
 
-        // axios.post(apiURL + 'jadwal_add', kirim).then(res => {
-        //     console.log(res.data);
+        PushNotification.localNotificationSchedule({
+            //... You can use all the options from localNotifications
+            channelId: 'HostdollyIDX',
+            title: 'Host Dolly', // (optional)
+            message: "Minum Obat Pagi", // (required)
+            // date: moment().utc().toISOString(), // in 60 secs
+            // ew Date(moment(kirim.tanggal + ' ' + '00:37').toISOString().valueOf())
+            date: new Date(moment(kirim.tanggal + ' ' + '07:00').toISOString().valueOf()), // in 60 secs
+            allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
+            playSound: true, // (optional) default: true
+            soundName: "alarm", // (optional) See `soundName` parameter of `localNotification` function
+            importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
+            vibrate: true,
+            /* Android Only Properties */
+            repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
+        });
 
-        //     __getTransaction();
+        PushNotification.localNotificationSchedule({
+            //... You can use all the options from localNotifications
+            channelId: 'HostdollyIDX',
+            title: 'Host Dolly', // (optional)
+            message: "Minum Obat Siang", // (required)
+            // date: moment().utc().toISOString(), // in 60 secs
+            // ew Date(moment(kirim.tanggal + ' ' + '00:37').toISOString().valueOf())
+            date: new Date(moment(kirim.tanggal + ' ' + '13:00').toISOString().valueOf()), // in 60 secs
+            allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
+            playSound: true, // (optional) default: true
+            soundName: "alarm", // (optional) See `soundName` parameter of `localNotification` function
+            importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
+            vibrate: true,
+            /* Android Only Properties */
+            repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
+        });
+        PushNotification.localNotificationSchedule({
+            //... You can use all the options from localNotifications
+            channelId: 'HostdollyIDX',
+            title: 'Host Dolly', // (optional)
+            message: "Minum Obat Malam", // (required)
+            // date: moment().utc().toISOString(), // in 60 secs
+            // ew Date(moment(kirim.tanggal + ' ' + '00:37').toISOString().valueOf())
+            date: new Date(moment(kirim.tanggal + ' ' + '19:00').toISOString().valueOf()), // in 60 secs
+            allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
+            playSound: true, // (optional) default: true
+            soundName: "alarm", // (optional) See `soundName` parameter of `localNotification` function
+            importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
+            vibrate: true,
+            /* Android Only Properties */
+            repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
+        });
+        PushNotification.localNotificationSchedule({
+            //... You can use all the options from localNotifications
+            channelId: 'HostdollyIDX',
+            title: 'Host Dolly', // (optional)
+            message: "Olahraga Pagi", // (required)
+            // date: moment().utc().toISOString(), // in 60 secs
+            // ew Date(moment(kirim.tanggal + ' ' + '00:37').toISOString().valueOf())
+            date: new Date(moment(kirim.tanggal + ' ' + '08:00').toISOString().valueOf()), // in 60 secs
+            allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
+            playSound: true, // (optional) default: true
+            soundName: "alarm", // (optional) See `soundName` parameter of `localNotification` function
+            importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
+            vibrate: true,
+            /* Android Only Properties */
+            repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
+        });
 
-        // })
+        PushNotification.localNotificationSchedule({
+            //... You can use all the options from localNotifications
+            channelId: 'HostdollyIDX',
+            title: 'Host Dolly', // (optional)
+            message: "Makan Siang", // (required)
+            // date: moment().utc().toISOString(), // in 60 secs
+            // ew Date(moment(kirim.tanggal + ' ' + '00:37').toISOString().valueOf())
+            date: new Date(moment(kirim.tanggal + ' ' + '12:00').toISOString().valueOf()), // in 60 secs
+            allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
+            playSound: true, // (optional) default: true
+            soundName: "alarm", // (optional) See `soundName` parameter of `localNotification` function
+            importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
+            vibrate: true,
+            /* Android Only Properties */
+            repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
+        });
+
+        PushNotification.localNotificationSchedule({
+            //... You can use all the options from localNotifications
+            channelId: 'HostdollyIDX',
+            title: 'Host Dolly', // (optional)
+            message: "Sarapan", // (required)
+            // date: moment().utc().toISOString(), // in 60 secs
+            // ew Date(moment(kirim.tanggal + ' ' + '00:37').toISOString().valueOf())
+            date: new Date(moment(kirim.tanggal + ' ' + '06:00').toISOString().valueOf()), // in 60 secs
+            allowWhileIdle: false, // (optional) set notification to work while on doze, default: false
+            playSound: true, // (optional) default: true
+            soundName: "alarm", // (optional) See `soundName` parameter of `localNotification` function
+            importance: Importance.HIGH, // (optional) default: Importance.HIGH. Int value of the Android notification importance
+            vibrate: true,
+            /* Android Only Properties */
+            repeatTime: 1, // (optional) Increment of configured repeatType. Check 'Repeating Notifications' section for more info.
+        });
+
+
+        axios.post(apiURL + 'jadwal_add', kirim).then(res => {
+            console.log(res.data);
+            Alert.alert(MYAPP, `Alarm berhasil dibuat untuk hari ${moment(kirim.tanggal).format('dddd, DD MMMM YYYY')}`)
+            __getTransaction();
+
+        })
     }
 
     useEffect(() => {
         console.log(moment().format('HH:mm:ss'))
+        PushNotification.getScheduledLocalNotifications(callback => {
+            console.log(callback)
+        });
         __getTransaction();
     }, [])
 

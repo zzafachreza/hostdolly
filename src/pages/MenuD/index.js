@@ -14,6 +14,7 @@ import 'moment/locale/id';
 import SoundPlayer from 'react-native-sound-player'
 export default function MenuD({ navigation, route }) {
 
+    const [play, setPlay] = useState(false);
     const [data, setData] = useState([]);
     const [pilih, setPilih] = useState({
         judul: '',
@@ -22,6 +23,7 @@ export default function MenuD({ navigation, route }) {
     const item = route.params;
 
     useEffect(() => {
+        console.log(pilih)
         axios.post(apiURL + 'suara').then(res => {
             console.log(res.data);
             setData(res.data);
@@ -65,7 +67,7 @@ export default function MenuD({ navigation, route }) {
             </View>
             <View style={{
                 flex: 1,
-                padding: 20,
+                paddingHorizontal: 20,
                 backgroundColor: colors.secondary,
                 position: 'relative',
             }}>
@@ -92,9 +94,11 @@ export default function MenuD({ navigation, route }) {
                                 <TouchableWithoutFeedback onPress={() => {
                                     console.log(i);
                                     setPilih(i);
+                                    setPlay(true)
                                     // play the file tone.mp3
-                                    let splt = i.judul.split('.');
-                                    SoundPlayer.playSoundFile('audio1', 'mp3')
+
+                                    SoundPlayer.playSoundFile(i.suara, 'mp3')
+
                                     // SoundPlayer.playUrl(i.suara)
 
 
@@ -135,15 +139,35 @@ export default function MenuD({ navigation, route }) {
                         )
                     })}
                 </ScrollView>
-                <View style={{
-                }}>
-                    <Text style={{
-                        textAlign: 'center',
-                        fontFamily: fonts.secondary[600],
-                        fontSize: 20,
-                    }}>{pilih.judul}</Text>
-                </View>
+
             </View>
+            {pilih.judul !== '' && <View style={{
+                backgroundColor: colors.tiga,
+                height: 70,
+                padding: 10,
+                flexDirection: 'row',
+                alignItems: 'center'
+            }}>
+                <Text style={{
+                    fontFamily: fonts.secondary[600],
+                    fontSize: 20,
+                    color: colors.white,
+                    flex: 1,
+                }}>{pilih.judul}</Text>
+
+                <TouchableOpacity onPress={() => {
+                    if (play) {
+                        setPlay(false)
+                        SoundPlayer.stop();
+                    } else {
+                        setPlay(true);
+                        SoundPlayer.playSoundFile(pilih.suara, 'mp3')
+                    }
+                }}>
+                    {!play && <Icon type='ionicon' name='play' size={40} color={colors.white} />}
+                    {play && <Icon type='ionicon' name='stop' size={40} color={colors.white} />}
+                </TouchableOpacity>
+            </View>}
         </SafeAreaView>
     )
 }
